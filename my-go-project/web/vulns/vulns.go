@@ -28,3 +28,13 @@ func Xxe(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Parsed user: %+v\n", doc)
 }
+
+func testLestratGoLibxml2(r *http.Request) {
+	r.ParseForm()
+	username := r.Form.Get("username")
+
+	p := parser.New(parser.XMLParseNoEnt)
+
+	// BAD: User input used directly in an XPath expression
+	_, _ = p.ParseString("//users/user[login/text()='" + username + "']/home_dir/text()")
+}
